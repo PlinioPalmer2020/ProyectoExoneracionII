@@ -3,14 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/plini/OneDrive/Documentos/NetBeansProjects/ProyectoExoneraconII/src/AbstractClasses/Persona.java</file>
-            <file>file:/C:/Users/plini/OneDrive/Documentos/NetBeansProjects/ProyectoExoneraconII/src/Interfaces/ICRUDDB.java</file>
-            <file>file:/C:/Users/plini/OneDrive/Documentos/NetBeansProjects/ProyectoExoneraconII/src/Repositorios/CConexion.java</file>
-            <file>file:/C:/Users/plini/OneDrive/Documentos/NetBeansProjects/ProyectoExoneraconII/src/Entidades/Cliente.java</file>
+            <file>file:/C:/Users/plini/OneDrive/Documentos/NetBeansProjects/ProyectoExoneraconII/src/InterfaceGrafico/JFPrincipal.java</file>
             <file>file:/C:/Users/plini/OneDrive/Documentos/NetBeansProjects/ProyectoExoneraconII/src/proyectoexoneraconii/ProyectoExoneraconII.java</file>
-            <file>file:/C:/Users/plini/OneDrive/Documentos/NetBeansProjects/ProyectoExoneraconII/src/Repositorios/CClienteRepositorio.java</file>
-            <file>file:/C:/Users/plini/OneDrive/Documentos/NetBeansProjects/ProyectoExoneraconII/src/Entidades/Vendedor.java</file>
-            <file>file:/C:/Users/plini/OneDrive/Documentos/NetBeansProjects/ProyectoExoneraconII/src/Repositorios/CVendedorRepositorio.java</file>
+            <file>file:/C:/Users/plini/OneDrive/Documentos/NetBeansProjects/ProyectoExoneraconII/src/Entidades/DatoCompraCliente.java</file>
+            <file>file:/C:/Users/plini/OneDrive/Documentos/NetBeansProjects/ProyectoExoneraconII/src/Entidades/TipoCompra.java</file>
         </group>
     </open-files>
 </project-private>
