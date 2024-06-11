@@ -84,7 +84,7 @@ public class CVendedorRepositorio implements ICRUDDB<Vendedor> {
 
         ArrayList<Vendedor> listVendedor = new ArrayList<>();
 
-        String Sql = "SELECT * FROM Vendedor WHERE Estado;";
+        String Sql = "SELECT * FROM Vendedor WHERE Estado = 'true';";
 
         Statement st;
 
@@ -106,7 +106,7 @@ public class CVendedorRepositorio implements ICRUDDB<Vendedor> {
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al obtener la lista");
+            JOptionPane.showMessageDialog(null, "Error al obtener la lista: "+ e.getMessage());
         }
         return listVendedor;
     }

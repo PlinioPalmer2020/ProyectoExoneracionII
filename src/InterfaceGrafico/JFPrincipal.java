@@ -6,7 +6,12 @@
 package InterfaceGrafico;
 
 import Entidades.Cliente;
+import Entidades.TipoCompra;
+import Entidades.Vendedor;
 import Repositorios.CClienteRepositorio;
+import Repositorios.CDatoCompraClienteRepositorio;
+import Repositorios.CVendedorRepositorio;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,9 +21,16 @@ import javax.swing.JOptionPane;
 public class JFPrincipal extends javax.swing.JFrame {
 
     private CClienteRepositorio _cClienteRepositorio;
+    private CVendedorRepositorio _cVendedorRepositorio;
+    private CDatoCompraClienteRepositorio _cDatoCompraClienteRepositorio;
+
     public JFPrincipal() {
         initComponents();
         _cClienteRepositorio = new CClienteRepositorio();
+        _cVendedorRepositorio = new CVendedorRepositorio();
+        _cDatoCompraClienteRepositorio = new CDatoCompraClienteRepositorio();
+        
+        CargarCB();
     }
 
     /**
@@ -233,6 +245,20 @@ public class JFPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void CargarCB() {
+        cbVendedor.removeAllItems();
+        cbTipoCompra.removeAllItems();
+
+        ArrayList<Vendedor> listVendedor = _cVendedorRepositorio.Get();
+        for (Vendedor vendedor : listVendedor) {
+            cbVendedor.addItem(vendedor.getNombre());
+        }
+
+        cbTipoCompra.addItem(TipoCompra.Contado.toString());
+        cbTipoCompra.addItem(TipoCompra.Cheque.toString());
+        cbTipoCompra.addItem(TipoCompra.Credito.toString());
+    }
+
     private void cbTipoCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTipoCompraActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbTipoCompraActionPerformed
@@ -241,14 +267,15 @@ public class JFPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAgregarActionPerformed
 
+
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
-        if(!"".equals(txtBuscarCliente.getText())){
+        if (!"".equals(txtBuscarCliente.getText())) {
             Cliente cliente = _cClienteRepositorio.Get(txtBuscarCliente.getText());
-            if(cliente == null){
-                JOptionPane.showMessageDialog(null,"El Cliente no existe");
+            if (cliente == null) {
+                JOptionPane.showMessageDialog(null, "El Cliente no existe");
                 return;
             }
-            
+
             lbCliente.setText(cliente.getNombre());
         }
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
