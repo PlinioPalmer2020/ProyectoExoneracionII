@@ -380,6 +380,7 @@ public class JFPrincipal extends javax.swing.JFrame {
 
         if (articulosRegistrados == contador) {
             JOptionPane.showMessageDialog(null, "Venta Registrada!");
+            Limpiar();
         }
     }
 
@@ -392,7 +393,7 @@ public class JFPrincipal extends javax.swing.JFrame {
         ArrayList<DatoCompraCliente> datosdb = _cDatoCompraClienteRepositorio.Get();
 
         String[] columnas = {"Fecha", "Vendedor", "Tipo Compra", "Cantidad", "Precio Und", "Monto"};
-        String[][] datos = new String[6][datosdb.size()];
+        String[][] datos = new String[datosdb.size()][6];
 
         double total = 0;
 
@@ -551,6 +552,7 @@ public class JFPrincipal extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
         Guardar();
+        
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
