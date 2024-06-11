@@ -18,7 +18,7 @@ public class CDatoCompraClienteRepositorio implements ICRUDDB<DatoCompraCliente>
 
     @Override
     public int Crear(DatoCompraCliente entidad) {
-        String Sql = "INSERT INTO [dbo].[DatoCompraCliente] ([Cedula] ,[Fecha] ,[Vendedor] ,[TipoCompra] ,[Articulo] ,[Cantidad] ,[PrecioUnitario] ,[Monto]) VALUES (? ,?> ,?> ,?> ,?> ,> ,?> ,?)";
+        String Sql = "INSERT INTO [dbo].[DatoCompraCliente] ([Cedula] ,[Fecha] ,[Vendedor] ,[TipoCompra] ,[Articulo] ,[Cantidad] ,[PrecioUnitario] ,[Monto]) VALUES (? ,? ,? ,? ,? ,? ,? ,?)";
 
         try {
             CallableStatement cs = _conexion.establecerConexion().prepareCall(Sql);

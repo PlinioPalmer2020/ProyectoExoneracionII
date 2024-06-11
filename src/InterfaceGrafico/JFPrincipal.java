@@ -6,6 +6,7 @@
 package InterfaceGrafico;
 
 import Entidades.Cliente;
+import Entidades.DatoCompraCliente;
 import Entidades.Producto;
 import Entidades.TipoCompra;
 import Entidades.Vendedor;
@@ -13,6 +14,7 @@ import Repositorios.CClienteRepositorio;
 import Repositorios.CDatoCompraClienteRepositorio;
 import Repositorios.CProductosRepositorio;
 import Repositorios.CVendedorRepositorio;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -317,6 +319,8 @@ public class JFPrincipal extends javax.swing.JFrame {
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         Integer datosRegistrados = tCarrito.getRowCount();
         Integer intColumn = tCarrito.getColumnCount();
+        double montoLabel = 0;
+        
         DefaultTableModel modelCarrito = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -358,6 +362,8 @@ public class JFPrincipal extends javax.swing.JFrame {
             modelCarrito.addRow(carrito);
 
             tCarrito.setModel(modelCarrito);
+            
+            lbTotal.setText(monto.toString());
             return;
         }
 
@@ -370,6 +376,7 @@ public class JFPrincipal extends javax.swing.JFrame {
             carrito[4] = tCarrito.getValueAt(i, 4).toString();
             carrito[5] = tCarrito.getValueAt(i, 5).toString();
             modelCarrito.addRow(carrito);
+            montoLabel = montoLabel + Double.parseDouble(tCarrito.getValueAt(i, 5).toString());
         }
 
         fila = tProductos.getSelectedRow();
@@ -389,7 +396,9 @@ public class JFPrincipal extends javax.swing.JFrame {
         carrito[5] = monto.toString();
 
         modelCarrito.addRow(carrito);
-
+        montoLabel = montoLabel + Double.parseDouble(monto.toString());
+        
+        lbTotal.setText(String.valueOf(montoLabel));
         tCarrito.setModel(modelCarrito);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
@@ -407,7 +416,28 @@ public class JFPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
+
+        int articulosRegistrados = tCarrito.getRowCount();
+        int contador = 0;
+        for (int i = 0; i < articulosRegistrados; i++) {
+            String Cedula = txtBuscarCliente.getText();
+            String Fecha = LocalDate.now().toString();
+            String Vendedor = tCarrito.getValueAt(i, 0).toString();
+            String TipoCompra = tCarrito.getValueAt(i, 2).toString();
+            String Artículo = tCarrito.getValueAt(i, 1).toString();
+            int Cantidad = Integer.parseInt(tCarrito.getValueAt(i, 3).toString());
+            double PrecioUnitario = Double.parseDouble(tCarrito.getValueAt(i, 4).toString());
+            float Monto = Float.parseFloat(tCarrito.getValueAt(i, 5).toString());
+
+            DatoCompraCliente entidad = new DatoCompraCliente(Cedula,Fecha,Vendedor,TipoCompra,Artículo,Cantidad,PrecioUnitario,Monto);
+            
+           contador = contador + _cDatoCompraClienteRepositorio.Crear(entidad);
+        }
+        
+        if(articulosRegistrados == contador){
+            JOptionPane.showMessageDialog(null, "Venta Registrada!");
+        }
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     /**
