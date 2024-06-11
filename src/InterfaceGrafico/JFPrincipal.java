@@ -101,6 +101,11 @@ public class JFPrincipal extends javax.swing.JFrame {
         });
 
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         btnImprimir.setText("Imprimir");
 
@@ -281,7 +286,7 @@ public class JFPrincipal extends javax.swing.JFrame {
         DefaultTableModel modelProducto = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; 
+                return false;
             }
         };
 
@@ -302,7 +307,38 @@ public class JFPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_cbTipoCompraActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        // TODO add your handling code here:
+        int fila = tProductos.getSelectedRow();
+        String nombreProducto = tProductos.getValueAt(fila, 0).toString();
+        Double precioProducto = Double.parseDouble(tProductos.getValueAt(fila, 1).toString());
+        
+        String nombreVendedor = cbVendedor.getSelectedItem().toString();
+        String tipoCompra     = cbTipoCompra.getSelectedItem().toString();
+        Integer    cantidad       = Integer.parseInt(txtCantidad.getText()) ;
+        Double monto          = precioProducto * cantidad;
+        
+        String[] carrito = new String[6];
+        carrito[0] = nombreVendedor;
+        carrito[1] = nombreProducto;
+        carrito[2] = tipoCompra;
+        carrito[3] = cantidad.toString();
+        carrito[4] = precioProducto.toString();
+        carrito[5] = monto.toString();
+        
+        DefaultTableModel modelCarrito = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        modelCarrito.addColumn("Vendedor");
+        modelCarrito.addColumn("Producto");
+        modelCarrito.addColumn("Tipo compra");
+        modelCarrito.addColumn("Cantidad");
+        modelCarrito.addColumn("Precio Und");
+        modelCarrito.addColumn("Monto");
+        modelCarrito.addRow(carrito);
+        tCarrito.setModel(modelCarrito);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
 
@@ -317,6 +353,10 @@ public class JFPrincipal extends javax.swing.JFrame {
             lbCliente.setText(cliente.getNombre());
         }
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     /**
      * @param args the command line arguments
