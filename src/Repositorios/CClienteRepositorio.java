@@ -76,7 +76,7 @@ public class CClienteRepositorio implements ICRUDDB<Cliente> {
 
         ArrayList<Cliente> listCliente = new ArrayList<>();
 
-        String Sql = "SELECT * FROM Cliente WHERE Estado;";
+        String Sql = "SELECT * FROM Cliente WHERE Estado = 'true';";
 
         Statement st;
 
