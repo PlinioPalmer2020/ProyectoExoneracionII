@@ -300,6 +300,14 @@ public class JFPrincipal extends javax.swing.JFrame {
         });
 
         tProductos.setModel(modelProducto);
+
+        DefaultTableModel modelCarrito = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tCarrito.setModel(modelCarrito);
     }
 
     private void cbTipoCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTipoCompraActionPerformed
@@ -307,37 +315,81 @@ public class JFPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_cbTipoCompraActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        int fila = tProductos.getSelectedRow();
-        String nombreProducto = tProductos.getValueAt(fila, 0).toString();
-        Double precioProducto = Double.parseDouble(tProductos.getValueAt(fila, 1).toString());
-        
-        String nombreVendedor = cbVendedor.getSelectedItem().toString();
-        String tipoCompra     = cbTipoCompra.getSelectedItem().toString();
-        Integer    cantidad       = Integer.parseInt(txtCantidad.getText()) ;
-        Double monto          = precioProducto * cantidad;
-        
-        String[] carrito = new String[6];
-        carrito[0] = nombreVendedor;
-        carrito[1] = nombreProducto;
-        carrito[2] = tipoCompra;
-        carrito[3] = cantidad.toString();
-        carrito[4] = precioProducto.toString();
-        carrito[5] = monto.toString();
-        
+        Integer datosRegistrados = tCarrito.getRowCount();
+        Integer intColumn = tCarrito.getColumnCount();
         DefaultTableModel modelCarrito = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
-
         modelCarrito.addColumn("Vendedor");
         modelCarrito.addColumn("Producto");
         modelCarrito.addColumn("Tipo compra");
         modelCarrito.addColumn("Cantidad");
         modelCarrito.addColumn("Precio Und");
         modelCarrito.addColumn("Monto");
+        String[] carrito = new String[6];
+
+        int fila = 0;
+        String nombreProducto;
+        Double precioProducto;
+        String nombreVendedor;
+        String tipoCompra;
+        Integer cantidad;
+        Double monto;
+        if (datosRegistrados == 0) {
+            fila = tProductos.getSelectedRow();
+            nombreProducto = tProductos.getValueAt(fila, 0).toString();
+            precioProducto = Double.parseDouble(tProductos.getValueAt(fila, 1).toString());
+
+            nombreVendedor = cbVendedor.getSelectedItem().toString();
+            tipoCompra = cbTipoCompra.getSelectedItem().toString();
+            cantidad = Integer.parseInt(txtCantidad.getText());
+            monto = precioProducto * cantidad;
+
+            carrito[0] = nombreVendedor;
+            carrito[1] = nombreProducto;
+            carrito[2] = tipoCompra;
+            carrito[3] = cantidad.toString();
+            carrito[4] = precioProducto.toString();
+            carrito[5] = monto.toString();
+
+            modelCarrito.addRow(carrito);
+
+            tCarrito.setModel(modelCarrito);
+            return;
+        }
+
+        for (int i = 0; i < datosRegistrados; i++) {
+
+            carrito[0] = tCarrito.getValueAt(i, 0).toString();
+            carrito[1] = tCarrito.getValueAt(i, 1).toString();
+            carrito[2] = tCarrito.getValueAt(i, 2).toString();
+            carrito[3] = tCarrito.getValueAt(i, 3).toString();
+            carrito[4] = tCarrito.getValueAt(i, 4).toString();
+            carrito[5] = tCarrito.getValueAt(i, 5).toString();
+            modelCarrito.addRow(carrito);
+        }
+
+        fila = tProductos.getSelectedRow();
+        nombreProducto = tProductos.getValueAt(fila, 0).toString();
+        precioProducto = Double.parseDouble(tProductos.getValueAt(fila, 1).toString());
+
+        nombreVendedor = cbVendedor.getSelectedItem().toString();
+        tipoCompra = cbTipoCompra.getSelectedItem().toString();
+        cantidad = Integer.parseInt(txtCantidad.getText());
+        monto = precioProducto * cantidad;
+
+        carrito[0] = nombreVendedor;
+        carrito[1] = nombreProducto;
+        carrito[2] = tipoCompra;
+        carrito[3] = cantidad.toString();
+        carrito[4] = precioProducto.toString();
+        carrito[5] = monto.toString();
+
         modelCarrito.addRow(carrito);
+
         tCarrito.setModel(modelCarrito);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
