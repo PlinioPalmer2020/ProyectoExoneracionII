@@ -14,6 +14,9 @@ import Repositorios.CClienteRepositorio;
 import Repositorios.CDatoCompraClienteRepositorio;
 import Repositorios.CProductosRepositorio;
 import Repositorios.CVendedorRepositorio;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -110,8 +113,18 @@ public class JFPrincipal extends javax.swing.JFrame {
         });
 
         btnImprimir.setText("Imprimir");
+        btnImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirActionPerformed(evt);
+            }
+        });
 
         btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
 
         btnBuscarCliente.setText("Buscar Cliente");
         btnBuscarCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -309,7 +322,110 @@ public class JFPrincipal extends javax.swing.JFrame {
                 return false;
             }
         };
+        modelCarrito.addColumn("Vendedor");
+        modelCarrito.addColumn("Producto");
+        modelCarrito.addColumn("Tipo compra");
+        modelCarrito.addColumn("Cantidad");
+        modelCarrito.addColumn("Precio Und");
+        modelCarrito.addColumn("Monto");
         tCarrito.setModel(modelCarrito);
+    }
+
+    private void Limpiar() {
+        txtBuscarCliente.setText("");
+        lbCliente.setText("");
+        txtCantidad.setText("");
+        cbVendedor.setSelectedIndex(0);
+        cbTipoCompra.setSelectedIndex(0);
+        DefaultTableModel modelCarrito = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        modelCarrito.addColumn("Vendedor");
+        modelCarrito.addColumn("Producto");
+        modelCarrito.addColumn("Tipo compra");
+        modelCarrito.addColumn("Cantidad");
+        modelCarrito.addColumn("Precio Und");
+        modelCarrito.addColumn("Monto");
+        tCarrito.setModel(modelCarrito);
+    }
+
+    private void Guardar() {
+        int articulosRegistrados = tCarrito.getRowCount();
+        int contador = 0;
+        for (int i = 0; i < articulosRegistrados; i++) {
+            String Cedula = txtBuscarCliente.getText();
+            String Fecha = LocalDate.now().toString();
+            String Vendedor = tCarrito.getValueAt(i, 0).toString();
+            String TipoCompra = tCarrito.getValueAt(i, 2).toString();
+            String Artículo = tCarrito.getValueAt(i, 1).toString();
+            int Cantidad = Integer.parseInt(tCarrito.getValueAt(i, 3).toString());
+            double PrecioUnitario = Double.parseDouble(tCarrito.getValueAt(i, 4).toString());
+            float Monto = Float.parseFloat(tCarrito.getValueAt(i, 5).toString());
+
+            DatoCompraCliente entidad = new DatoCompraCliente(Cedula, Fecha, Vendedor, TipoCompra, Artículo, Cantidad, PrecioUnitario, Monto);
+
+            contador = contador + _cDatoCompraClienteRepositorio.Crear(entidad);
+        }
+
+        if (articulosRegistrados == contador) {
+            JOptionPane.showMessageDialog(null, "Venta Registrada!");
+        }
+    }
+    
+    private void Imprimir(){
+                   // Definir los datos de la tabla
+        String cedula = "001-152041-3 Juan Pablo Valdez";
+        String[] columnas = {"Fecha", "Vendedor", "Tipo Compra", "Cantidad", "Precio Und", "Monto"};
+        String[][] datos = {
+            {"01/05/2014", "Juan Diaz", "Credito", "30", "88", "2640"},
+            {"01/05/2014", "Jose Lopez", "Contado", "30", "80", "2400"},
+            {"01/05/2014", "Miguel Soto", "Cheque", "30", "90", "2700"}
+        };
+        String total = "999,999.99";
+
+        // Especifica la ruta completa del archivo de salida
+        // Ejemplo: "C:\\ruta\\a\\tu\\archivo\\tabla.txt" en Windows
+        // Ejemplo: "/ruta/a/tu/archivo/tabla.txt" en Unix/Linux/Mac
+        String nombreArchivo = "C:\\Users\\plini\\OneDrive\\Escritorio\\archivoReporte\\tabla.txt";
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo))) {
+            // Escribir la cédula
+            writer.write("Cédula : " + cedula);
+            writer.newLine();
+            writer.newLine();
+
+            // Escribir las columnas
+            for (String columna : columnas) {
+                writer.write(padRight(columna, 15));
+            }
+            writer.newLine();
+
+            // Escribir los datos
+            for (String[] fila : datos) {
+                for (String celda : fila) {
+                    writer.write(padRight(celda, 15));
+                }
+                writer.newLine();
+            }
+
+            // Escribir el total
+            writer.newLine();
+            writer.write("Total:   " + padRight(total, 15));
+            writer.newLine();
+
+            System.out.println("Archivo escrito exitosamente: " + nombreArchivo);
+        } catch (IOException e) {
+            System.err.println("Error al escribir el archivo: " + e.getMessage());
+        }
+    
+    }
+    
+        // Método para rellenar el texto a la derecha con espacios
+    private static String padRight(String texto, int n) {
+        return String.format("%-" + n + "s", texto);
     }
 
     private void cbTipoCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTipoCompraActionPerformed
@@ -320,7 +436,7 @@ public class JFPrincipal extends javax.swing.JFrame {
         Integer datosRegistrados = tCarrito.getRowCount();
         Integer intColumn = tCarrito.getColumnCount();
         double montoLabel = 0;
-        
+
         DefaultTableModel modelCarrito = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -362,7 +478,7 @@ public class JFPrincipal extends javax.swing.JFrame {
             modelCarrito.addRow(carrito);
 
             tCarrito.setModel(modelCarrito);
-            
+
             lbTotal.setText(monto.toString());
             return;
         }
@@ -397,11 +513,10 @@ public class JFPrincipal extends javax.swing.JFrame {
 
         modelCarrito.addRow(carrito);
         montoLabel = montoLabel + Double.parseDouble(monto.toString());
-        
+
         lbTotal.setText(String.valueOf(montoLabel));
         tCarrito.setModel(modelCarrito);
     }//GEN-LAST:event_btnAgregarActionPerformed
-
 
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
         if (!"".equals(txtBuscarCliente.getText())) {
@@ -417,28 +532,17 @@ public class JFPrincipal extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
-        int articulosRegistrados = tCarrito.getRowCount();
-        int contador = 0;
-        for (int i = 0; i < articulosRegistrados; i++) {
-            String Cedula = txtBuscarCliente.getText();
-            String Fecha = LocalDate.now().toString();
-            String Vendedor = tCarrito.getValueAt(i, 0).toString();
-            String TipoCompra = tCarrito.getValueAt(i, 2).toString();
-            String Artículo = tCarrito.getValueAt(i, 1).toString();
-            int Cantidad = Integer.parseInt(tCarrito.getValueAt(i, 3).toString());
-            double PrecioUnitario = Double.parseDouble(tCarrito.getValueAt(i, 4).toString());
-            float Monto = Float.parseFloat(tCarrito.getValueAt(i, 5).toString());
-
-            DatoCompraCliente entidad = new DatoCompraCliente(Cedula,Fecha,Vendedor,TipoCompra,Artículo,Cantidad,PrecioUnitario,Monto);
-            
-           contador = contador + _cDatoCompraClienteRepositorio.Crear(entidad);
-        }
+        Guardar();
         
-        if(articulosRegistrados == contador){
-            JOptionPane.showMessageDialog(null, "Venta Registrada!");
-        }
-
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        Limpiar();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+        Imprimir();
+    }//GEN-LAST:event_btnImprimirActionPerformed
 
     /**
      * @param args the command line arguments
