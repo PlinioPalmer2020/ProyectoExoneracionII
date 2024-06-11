@@ -94,6 +94,8 @@ public class JFPrincipal extends javax.swing.JFrame {
 
         jLabel3.setText("Cantidad: ");
 
+        txtCantidad.setText("1");
+
         jLabel4.setText("Cliente: ");
 
         jLabel6.setText("Buscar Cliente:");
@@ -334,7 +336,7 @@ public class JFPrincipal extends javax.swing.JFrame {
     private void Limpiar() {
         txtBuscarCliente.setText("");
         lbCliente.setText("");
-        txtCantidad.setText("");
+        txtCantidad.setText("1");
         cbVendedor.setSelectedIndex(0);
         cbTipoCompra.setSelectedIndex(0);
         DefaultTableModel modelCarrito = new DefaultTableModel() {
@@ -353,6 +355,12 @@ public class JFPrincipal extends javax.swing.JFrame {
     }
 
     private void Guardar() {
+
+        if ("".equals(txtBuscarCliente.getText())) {
+            JOptionPane.showMessageDialog(null, "Debe buscar un Cliente para guardar");
+            return;
+        }
+
         int articulosRegistrados = tCarrito.getRowCount();
         int contador = 0;
         for (int i = 0; i < articulosRegistrados; i++) {
@@ -374,30 +382,31 @@ public class JFPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Venta Registrada!");
         }
     }
-    
-    private void Imprimir(){
-        
+
+    private void Imprimir() {
+        if ("".equals(txtBuscarCliente.getText())) {
+            JOptionPane.showMessageDialog(null, "Debe buscar un Cliente para Imprimir su factura");
+            return;
+        }
         Cliente cliente = _cClienteRepositorio.Get(txtBuscarCliente.getText());
         ArrayList<DatoCompraCliente> datosdb = _cDatoCompraClienteRepositorio.Get();
-        
+
         String[] columnas = {"Fecha", "Vendedor", "Tipo Compra", "Cantidad", "Precio Und", "Monto"};
         String[][] datos = new String[6][datosdb.size()];
-        
+
         double total = 0;
-        
-            for (int j = 0; j < datosdb.size(); j++) {
-                datos[j][0] = datosdb.get(j).getFecha();
-                datos[j][1] = datosdb.get(j).getVendedor();
-                datos[j][2] = datosdb.get(j).getTipoCompra();
-                datos[j][3] = String.valueOf(datosdb.get(j).getCantidad());
-                datos[j][4] = String.valueOf(datosdb.get(j).getPrecioUnitario());
-                datos[j][5] = String.valueOf(datosdb.get(j).getMonto());
-                
-                total = total + datosdb.get(j).getMonto();
-            }
-        
-        
-       
+
+        for (int j = 0; j < datosdb.size(); j++) {
+            datos[j][0] = datosdb.get(j).getFecha();
+            datos[j][1] = datosdb.get(j).getVendedor();
+            datos[j][2] = datosdb.get(j).getTipoCompra();
+            datos[j][3] = String.valueOf(datosdb.get(j).getCantidad());
+            datos[j][4] = String.valueOf(datosdb.get(j).getPrecioUnitario());
+            datos[j][5] = String.valueOf(datosdb.get(j).getMonto());
+
+            total = total + datosdb.get(j).getMonto();
+        }
+
         String nombreArchivo = "C:\\Users\\plini\\OneDrive\\Escritorio\\archivoReporte\\tabla.txt";
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo))) {
@@ -425,9 +434,9 @@ public class JFPrincipal extends javax.swing.JFrame {
         } catch (IOException e) {
             System.err.println("Error al escribir el archivo: " + e.getMessage());
         }
-    
+
     }
-    
+
     private static String padRight(String texto, int n) {
         return String.format("%-" + n + "s", texto);
     }
@@ -440,6 +449,12 @@ public class JFPrincipal extends javax.swing.JFrame {
         Integer datosRegistrados = tCarrito.getRowCount();
         Integer intColumn = tCarrito.getColumnCount();
         double montoLabel = 0;
+        int fila = tProductos.getSelectedRow();
+
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un producto para agregar al carrito!");
+            return;
+        }
 
         DefaultTableModel modelCarrito = new DefaultTableModel() {
             @Override
@@ -455,7 +470,6 @@ public class JFPrincipal extends javax.swing.JFrame {
         modelCarrito.addColumn("Monto");
         String[] carrito = new String[6];
 
-        int fila = 0;
         String nombreProducto;
         Double precioProducto;
         String nombreVendedor;
@@ -463,7 +477,7 @@ public class JFPrincipal extends javax.swing.JFrame {
         Integer cantidad;
         Double monto;
         if (datosRegistrados == 0) {
-            fila = tProductos.getSelectedRow();
+
             nombreProducto = tProductos.getValueAt(fila, 0).toString();
             precioProducto = Double.parseDouble(tProductos.getValueAt(fila, 1).toString());
 
@@ -537,7 +551,6 @@ public class JFPrincipal extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
         Guardar();
-        
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
