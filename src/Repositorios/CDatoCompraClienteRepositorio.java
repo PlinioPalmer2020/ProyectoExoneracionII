@@ -75,7 +75,37 @@ public class CDatoCompraClienteRepositorio implements ICRUDDB<DatoCompraCliente>
 
     @Override
     public ArrayList<DatoCompraCliente> Get() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         
+        ArrayList<DatoCompraCliente> listDatoCompraCliente = new ArrayList<>();
+
+        String Sql = "SELECT * FROM DatoCompraCliente;";
+
+        Statement st;
+
+        try {
+            st = _conexion.establecerConexion().createStatement();
+
+            ResultSet rs = st.executeQuery(Sql);
+
+            while (rs.next()) {
+                DatoCompraCliente datoCompraCliente;
+                //String Cedula, String Fecha, String Vendedor, String TipoCompra, String Artículo, int Cantidad, double PrecioUnitario, float Monto
+                datoCompraCliente = new DatoCompraCliente(rs.getString("Cedula"),
+                        rs.getString("Fecha"),
+                        rs.getString("Vendedor"),
+                        rs.getString("TipoCompra"),
+                        rs.getString("Articulo"),
+                        rs.getInt("Cantidad"),
+                        rs.getDouble("PrecioUnitario"),
+                        rs.getFloat("Monto")
+                );
+                listDatoCompraCliente.add(datoCompraCliente);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener la lista: " + e.getMessage() );
+        }
+        return listDatoCompraCliente;
     }
 
     @Override

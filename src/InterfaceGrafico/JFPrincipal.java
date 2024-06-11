@@ -376,34 +376,40 @@ public class JFPrincipal extends javax.swing.JFrame {
     }
     
     private void Imprimir(){
-                   // Definir los datos de la tabla
-        String cedula = "001-152041-3 Juan Pablo Valdez";
+        
+        Cliente cliente = _cClienteRepositorio.Get(txtBuscarCliente.getText());
+        ArrayList<DatoCompraCliente> datosdb = _cDatoCompraClienteRepositorio.Get();
+        
         String[] columnas = {"Fecha", "Vendedor", "Tipo Compra", "Cantidad", "Precio Und", "Monto"};
-        String[][] datos = {
-            {"01/05/2014", "Juan Diaz", "Credito", "30", "88", "2640"},
-            {"01/05/2014", "Jose Lopez", "Contado", "30", "80", "2400"},
-            {"01/05/2014", "Miguel Soto", "Cheque", "30", "90", "2700"}
-        };
-        String total = "999,999.99";
-
-        // Especifica la ruta completa del archivo de salida
-        // Ejemplo: "C:\\ruta\\a\\tu\\archivo\\tabla.txt" en Windows
-        // Ejemplo: "/ruta/a/tu/archivo/tabla.txt" en Unix/Linux/Mac
+        String[][] datos = new String[6][datosdb.size()];
+        
+        double total = 0;
+        
+            for (int j = 0; j < datosdb.size(); j++) {
+                datos[j][0] = datosdb.get(j).getFecha();
+                datos[j][1] = datosdb.get(j).getVendedor();
+                datos[j][2] = datosdb.get(j).getTipoCompra();
+                datos[j][3] = String.valueOf(datosdb.get(j).getCantidad());
+                datos[j][4] = String.valueOf(datosdb.get(j).getPrecioUnitario());
+                datos[j][5] = String.valueOf(datosdb.get(j).getMonto());
+                
+                total = total + datosdb.get(j).getMonto();
+            }
+        
+        
+       
         String nombreArchivo = "C:\\Users\\plini\\OneDrive\\Escritorio\\archivoReporte\\tabla.txt";
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo))) {
-            // Escribir la cédula
-            writer.write("Cédula : " + cedula);
+            writer.write("Cédula : " + cliente.getCedula() + " " + cliente.getNombre());
             writer.newLine();
             writer.newLine();
 
-            // Escribir las columnas
             for (String columna : columnas) {
                 writer.write(padRight(columna, 15));
             }
             writer.newLine();
 
-            // Escribir los datos
             for (String[] fila : datos) {
                 for (String celda : fila) {
                     writer.write(padRight(celda, 15));
@@ -411,9 +417,8 @@ public class JFPrincipal extends javax.swing.JFrame {
                 writer.newLine();
             }
 
-            // Escribir el total
             writer.newLine();
-            writer.write("Total:   " + padRight(total, 15));
+            writer.write("Total:   " + padRight(String.valueOf(total), 15));
             writer.newLine();
 
             System.out.println("Archivo escrito exitosamente: " + nombreArchivo);
@@ -423,7 +428,6 @@ public class JFPrincipal extends javax.swing.JFrame {
     
     }
     
-        // Método para rellenar el texto a la derecha con espacios
     private static String padRight(String texto, int n) {
         return String.format("%-" + n + "s", texto);
     }
