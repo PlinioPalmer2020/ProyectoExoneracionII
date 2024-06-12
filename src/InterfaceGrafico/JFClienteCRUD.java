@@ -23,6 +23,7 @@ public class JFClienteCRUD extends javax.swing.JFrame {
 
     public JFClienteCRUD() {
         initComponents();
+        this.setLocationRelativeTo(null);
         _cClienteRepositorio = new CClienteRepositorio();
 
         CargarCliente();
@@ -173,7 +174,7 @@ public class JFClienteCRUD extends javax.swing.JFrame {
                             .addComponent(btnEliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnValidarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnValidarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(

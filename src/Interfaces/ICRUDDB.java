@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public interface ICRUDDB<T> {
     public int Crear(T entidad);
     public T Get(String x);
+    public T GetAllEstado(String x);
     public ArrayList<T> Get();
     public ArrayList<T> GetAll();
     public int Eliminar(String x);

@@ -123,4 +123,9 @@ public class CDatoCompraClienteRepositorio implements ICRUDDB<DatoCompraCliente>
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public DatoCompraCliente GetAllEstado(String x) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

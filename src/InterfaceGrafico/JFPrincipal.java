@@ -35,6 +35,7 @@ public class JFPrincipal extends javax.swing.JFrame {
 
     public JFPrincipal() {
         initComponents();
+        this.setLocationRelativeTo(null);
         _cClienteRepositorio = new CClienteRepositorio();
         _cVendedorRepositorio = new CVendedorRepositorio();
         _cDatoCompraClienteRepositorio = new CDatoCompraClienteRepositorio();
@@ -238,10 +239,11 @@ public class JFPrincipal extends javax.swing.JFrame {
                     .addComponent(btnGuardar)
                     .addComponent(btnAgregar, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnImprimir)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnLimpiar)
-                    .addComponent(irCrearCliente)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnImprimir)
+                        .addComponent(irCrearCliente))))
         );
 
         tCarrito.setModel(new javax.swing.table.DefaultTableModel(
