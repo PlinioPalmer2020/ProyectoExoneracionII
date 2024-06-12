@@ -176,6 +176,11 @@ public class JFClienteCRUD extends javax.swing.JFrame {
 
             }
         ));
+        tCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tClienteMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tCliente);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -239,20 +244,10 @@ public class JFClienteCRUD extends javax.swing.JFrame {
         tCliente.setModel(modelCliente);
     }
 
-    private void CrearCliente() {
+    private void CrearCliente(Cliente entidad) {
 
         try {
-            String Cedula = txtCedula.getText();
-            String Nombre = txtNombre.getText();
-            String Direccion = txtDireccion.getText();
-            String Genero = cbGenero.getSelectedItem().toString();
-            String auxEstado = cbEstado.getSelectedItem().toString();
-            boolean Estado = false;
-            if ("Activo".equals(auxEstado)) {
-                Estado = true;
-            }
 
-            Cliente entidad = new Cliente(Cedula, Nombre, Direccion, Genero, Estado);
             if (_cClienteRepositorio.Crear(entidad) == 1) {
                 JOptionPane.showMessageDialog(null, "Cliente Creado");
                 CargarCliente();
@@ -264,24 +259,52 @@ public class JFClienteCRUD extends javax.swing.JFrame {
 
     }
 
+    private void ModificarCliente(Cliente entidad) {
+        try {
+
+            if (_cClienteRepositorio.Modificar(entidad) == 1) {
+                JOptionPane.showMessageDialog(null, "Cambios realizados");
+                CargarCliente();
+                Limpiar();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al crear: " + e.getMessage());
+        }
+    }
+
     private void Limpiar() {
         txtNombre.setText("");
         txtDireccion.setText("");
         txtCedula.setText("");
+        txtCedula.setEnabled(true);
         cbEstado.setSelectedIndex(0);
         cbGenero.setSelectedIndex(0);
         estadoSistema = "guardar";
         btnGuardar.setText("Crear Cliente");
+        btnLimpiar.setText("Limpiar");
     }
     private void txtCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCedulaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCedulaActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        String Cedula = txtCedula.getText();
+        String Nombre = txtNombre.getText();
+        String Direccion = txtDireccion.getText();
+        String Genero = cbGenero.getSelectedItem().toString();
+        String auxEstado = cbEstado.getSelectedItem().toString();
+        boolean Estado = false;
+        if ("Activo".equals(auxEstado)) {
+            Estado = true;
+        }
 
+        Cliente entidad = new Cliente(Cedula, Nombre, Direccion, Genero, Estado);
         switch (estadoSistema) {
             case "guardar":
-                CrearCliente();
+                CrearCliente(entidad);
+                break;
+            case "modificar":
+                ModificarCliente(entidad);
                 break;
         }
 
@@ -296,6 +319,21 @@ public class JFClienteCRUD extends javax.swing.JFrame {
         principal.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnIrComprarActionPerformed
+
+    private void tClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tClienteMouseClicked
+        txtCedula.setEnabled(false);
+        int fila = tCliente.getSelectedRow();
+        
+        txtCedula.setText(tCliente.getValueAt(fila, 0).toString());
+        txtNombre.setText(tCliente.getValueAt(fila, 1).toString());
+        txtDireccion.setText(tCliente.getValueAt(fila, 2).toString());
+        cbGenero.setSelectedItem(tCliente.getValueAt(fila, 3));
+        cbEstado.setSelectedItem(tCliente.getValueAt(fila, 4));
+
+        btnGuardar.setText("Guardar Cambios");
+        estadoSistema = "modificar";
+        btnLimpiar.setText("Cancelar");
+    }//GEN-LAST:event_tClienteMouseClicked
 
     /**
      * @param args the command line arguments
