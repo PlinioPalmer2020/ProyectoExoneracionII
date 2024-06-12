@@ -10,6 +10,7 @@ import Entidades.Vendedor;
 import InterfaceGrafico.JFClienteCRUD;
 import InterfaceGrafico.JFMenuInicio;
 import InterfaceGrafico.JFPrincipal;
+import InterfaceGrafico.JFVendedorCRUD;
 import Repositorios.CVendedorRepositorio;
 import java.util.ArrayList;
 
@@ -25,7 +26,8 @@ public class ProyectoExoneraconII {
     public static void main(String[] args) {
         //JFPrincipal principal = new JFPrincipal();
         //JFClienteCRUD principal = new JFClienteCRUD();
-        JFMenuInicio principal = new JFMenuInicio();
+        //JFMenuInicio principal = new JFMenuInicio();
+        JFVendedorCRUD principal = new JFVendedorCRUD();
         principal.setVisible(true);
     }
     

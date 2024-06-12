@@ -28,23 +28,25 @@ public class CVendedorRepositorio implements ICRUDDB<Vendedor> {
     @Override
     public int Crear(Vendedor entidad) {
 
-        String Sql = "INSERT INTO [dbo].[Vendedor]([Cedula],[Nombre],[Genero],[Rol],[Pass],[Estado])VALUES(?,?,?,?,?,?,?)";
-
+        String Sql = "INSERT INTO [dbo].[Vendedor]([Cedula],[Nombre],[Genero],[Estado],[Direccion])VALUES(?,?,?,?,?)";
+        //String Sql = "INSERT INTO [dbo].[Vendedor]([Cedula],[Nombre],[Genero],[Rol],[Pass],[Estado])VALUES(?,?,?,?,?,?,?)";
         try {
             CallableStatement cs = _conexion.establecerConexion().prepareCall(Sql);
 
             cs.setString(1, entidad.getCedula());
             cs.setString(2, entidad.getNombre());
             cs.setString(3, entidad.getGenero());
-            cs.setString(4, entidad.getRol());
-            cs.setString(5, entidad.getPass());
-            cs.setBoolean(6, entidad.isEstado());
-            cs.setString(7, entidad.getDireccion());
+            //cs.setString(4, entidad.getRol());
+            //cs.setString(5, entidad.getPass());
+            cs.setBoolean(4, entidad.isEstado());
+            cs.setString(5, entidad.getDireccion());
 
             cs.execute();
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error a insertar: "+ e.getMessage());
+            System.out.println(e.getMessage());
+             
             return 0;
         }
         return 1;
@@ -159,12 +161,66 @@ public class CVendedorRepositorio implements ICRUDDB<Vendedor> {
 
     @Override
     public ArrayList<Vendedor> GetAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+          ArrayList<Vendedor> listVendedor = new ArrayList<>();
+
+        String Sql = "SELECT * FROM Vendedor";
+
+        Statement st;
+
+        try {
+            st = _conexion.establecerConexion().createStatement();
+
+            ResultSet rs = st.executeQuery(Sql);
+
+            while (rs.next()) {
+                Vendedor vendedor;
+                vendedor = new Vendedor(
+                        rs.getString("Rol"),
+                        rs.getString("Cedula"),
+                        rs.getString("Nombre"),
+                        rs.getString("Direccion"),
+                        rs.getString("Genero"),
+                        rs.getBoolean("Estado")
+                                );
+                listVendedor.add(vendedor);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener la lista: "+ e.getMessage());
+        }
+        return listVendedor;
     }
 
     @Override
     public Vendedor GetAllEstado(String x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Vendedor a = new Vendedor();
+
+        Vendedor vendedor = null;
+        String Sql = "SELECT * FROM Vendedor WHERE Cedula = '" + x + "'";
+        Statement st;
+
+        try {
+            st = _conexion.establecerConexion().createStatement();
+
+            ResultSet rs = st.executeQuery(Sql);
+
+            while (rs.next()) {
+                //String Rol, String Cedula, String Nombre, String Direccion, String Genero, boolean Estado
+                vendedor = new Vendedor(
+                        rs.getString("Rol"),
+                        rs.getString("Cedula"),
+                        rs.getString("Nombre"),
+                        rs.getString("Direccion"),
+                        rs.getString("Genero"),
+                        rs.getBoolean("Estado")
+                                );
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener la lista: " + e.getMessage());
+        }
+
+        return vendedor;
     }
 
 }

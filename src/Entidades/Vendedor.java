@@ -31,9 +31,11 @@ public class Vendedor extends Persona {
         this.Pass = Pass;
     }
 
+    public Vendedor(String Cedula, String Nombre, String Direccion, String Genero, boolean Estado) {
+        super(Cedula, Nombre, Direccion, Genero, Estado);
+    }
+
    
-
-
     public String getRol() {
         return Rol;
     }
