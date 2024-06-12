@@ -42,11 +42,11 @@ public class CVendedorRepositorio implements ICRUDDB<Vendedor> {
             cs.setString(5, entidad.getDireccion());
 
             cs.execute();
-            
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error a insertar: "+ e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error a insertar: " + e.getMessage());
             System.out.println(e.getMessage());
-             
+
             return 0;
         }
         return 1;
@@ -74,7 +74,7 @@ public class CVendedorRepositorio implements ICRUDDB<Vendedor> {
                         rs.getString("Direccion"),
                         rs.getString("Genero"),
                         rs.getBoolean("Estado")
-                                );
+                );
             }
 
         } catch (Exception e) {
@@ -107,28 +107,28 @@ public class CVendedorRepositorio implements ICRUDDB<Vendedor> {
                         rs.getString("Direccion"),
                         rs.getString("Genero"),
                         rs.getBoolean("Estado")
-                                );
+                );
                 listVendedor.add(vendedor);
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al obtener la lista: "+ e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al obtener la lista: " + e.getMessage());
         }
         return listVendedor;
     }
 
     @Override
     public int Eliminar(String x) {
-                String Sql = "UPDATE [dbo].[Vendedor] SET  [Estado] = 0 WHERE [Cedula] = ?";
+        String Sql = "UPDATE [dbo].[Vendedor] SET  [Estado] = 0 WHERE [Cedula] = ?";
 
         try {
             CallableStatement cs = _conexion.establecerConexion().prepareCall(Sql);
 
             cs.setString(1, x);
             cs.execute();
-            
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al Eliminar: "+ e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al Eliminar: " + e.getMessage());
             return 0;
         }
         return 1;
@@ -136,24 +136,24 @@ public class CVendedorRepositorio implements ICRUDDB<Vendedor> {
 
     @Override
     public int Modificar(Vendedor entidad) {
-        
-        String Sql = "UPDATE [dbo].[Vendedor] SET [Nombre] = ?, [Genero] = ?, [Rol] = ?, [Pass] = ?, [Direccion] = ?, [Estado] = ? WHERE [Cedula] = ?";
 
+        //String Sql = "UPDATE [dbo].[Vendedor] SET [Nombre] = ?, [Genero] = ?, [Rol] = ?, [Pass] = ?, [Direccion] = ?, [Estado] = ? WHERE [Cedula] = ?";
+        String Sql = "UPDATE [dbo].[Vendedor] SET [Nombre] = ?, [Genero] = ?, [Direccion] = ?, [Estado] = ? WHERE [Cedula] = ?";
         try {
             CallableStatement cs = _conexion.establecerConexion().prepareCall(Sql);
 
-            cs.setString(7, entidad.getCedula());
+            cs.setString(5, entidad.getCedula());
             cs.setString(1, entidad.getNombre());
             cs.setString(2, entidad.getGenero());
-            cs.setString(3, entidad.getRol());
-            cs.setString(4, entidad.getPass());
-            cs.setBoolean(5, entidad.isEstado());
-            cs.setString(6, entidad.getDireccion());
-            
+            //cs.setString(3, entidad.getRol());
+            //cs.setString(4, entidad.getPass());
+            cs.setString(3, entidad.getDireccion());
+            cs.setBoolean(4, entidad.isEstado());
+
             cs.execute();
-            
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al Modificar: "+ e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al Modificar: " + e.getMessage());
             return 0;
         }
         return 1;
@@ -161,7 +161,7 @@ public class CVendedorRepositorio implements ICRUDDB<Vendedor> {
 
     @Override
     public ArrayList<Vendedor> GetAll() {
-          ArrayList<Vendedor> listVendedor = new ArrayList<>();
+        ArrayList<Vendedor> listVendedor = new ArrayList<>();
 
         String Sql = "SELECT * FROM Vendedor";
 
@@ -181,12 +181,12 @@ public class CVendedorRepositorio implements ICRUDDB<Vendedor> {
                         rs.getString("Direccion"),
                         rs.getString("Genero"),
                         rs.getBoolean("Estado")
-                                );
+                );
                 listVendedor.add(vendedor);
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al obtener la lista: "+ e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al obtener la lista: " + e.getMessage());
         }
         return listVendedor;
     }
@@ -213,7 +213,7 @@ public class CVendedorRepositorio implements ICRUDDB<Vendedor> {
                         rs.getString("Direccion"),
                         rs.getString("Genero"),
                         rs.getBoolean("Estado")
-                                );
+                );
             }
 
         } catch (Exception e) {
