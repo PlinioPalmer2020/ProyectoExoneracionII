@@ -1,0 +1,20 @@
+---------------------------------------------------------------------------------
+Cédula : 000-0000000-0 Mel Acosta
+
+Fecha          Vendedor       Tipo Compra    Cantidad       Precio Und     Monto          
+2024-06-12     Plinio Palmer  Cheque         1              10.0           10.0           
+2024-06-12     Plinio Palmer  Cheque         1              15000.0        15000.0        
+2024-06-12     Plinio Palmer  Credito        1              10.0           10.0           
+2024-06-12     Plinio Palmer  Contado        1              15000.0        15000.0        
+
+Total:   30020.0        
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Cédula : 402-1234567-8 Julio Palmer
+
+Fecha          Vendedor       Tipo Compra    Cantidad       Precio Und     Monto          
+2024-06-12     Plinio Palmer  Contado        1              10.0           10.0           
+2024-06-12     Plinio Palmer  Contado        1              10.0           10.0           
+
+Total:   20.0           
+---------------------------------------------------------------------------------

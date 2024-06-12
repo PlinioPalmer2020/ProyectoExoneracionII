@@ -18,11 +18,14 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -121,7 +124,7 @@ public class JFPrincipal extends javax.swing.JFrame {
             }
         });
 
-        btnImprimir.setText("Imprimir");
+        btnImprimir.setText("Obtener Reporte");
         btnImprimir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnImprimirActionPerformed(evt);
@@ -409,7 +412,7 @@ public class JFPrincipal extends javax.swing.JFrame {
         }
     }
 
-    private void Imprimir() {
+    private void Imprimir() throws IOException {
 
         //String cedula = JOptionPane.showInputDialog(null, "Introduzca la cedula:", "Imprimir", JOptionPane.QUESTION_MESSAGE);
         //if (cedula == null || cedula.isEmpty()) {
@@ -419,7 +422,14 @@ public class JFPrincipal extends javax.swing.JFrame {
         ArrayList<Cliente> clientess = _cClienteRepositorio.Get();
         String[] cedulass = obtenerCedulasUnicas(clientess);
 
-        String nombreArchivo = "C:\\Users\\plini\\OneDrive\\Escritorio\\archivoReporte\\Reporte.txt";
+        String rootPath = System.getProperty("user.dir");
+        Path archivoReporte = Paths.get(rootPath, "archivoReporte");
+
+        if (Files.notExists(archivoReporte)) {
+            Files.createDirectory(archivoReporte);
+        }
+
+        String nombreArchivo = archivoReporte.resolve("Reporte.txt").toString();
 
         int contador = 0;
         while (Files.exists(Paths.get(nombreArchivo))) {
@@ -481,6 +491,7 @@ public class JFPrincipal extends javax.swing.JFrame {
             }
         }
         JOptionPane.showMessageDialog(null, "Reporte Listo");
+        //Process exec = Runtime.getRuntime().exec(rootPath);
     }
 
     public String[] obtenerCedulasUnicas(ArrayList<Cliente> clientes) {
@@ -615,7 +626,11 @@ public class JFPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-        Imprimir();
+        try {
+            Imprimir();
+        } catch (IOException ex) {
+            Logger.getLogger(JFPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnImprimirActionPerformed
 
     private void irCrearClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irCrearClienteActionPerformed
