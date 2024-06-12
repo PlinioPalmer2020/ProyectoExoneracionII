@@ -420,7 +420,10 @@ public class JFPrincipal extends javax.swing.JFrame {
         for (String cedu : cedulass) {
             Cliente cliente = _cClienteRepositorio.Get(cedu);
             ArrayList<DatoCompraCliente> datosdb = _cDatoCompraClienteRepositorio.GetAllFiltro(cedu);
-
+            
+            if(datosdb.isEmpty())
+                continue;
+            
             String[] columnas = {"Fecha", "Vendedor", "Tipo Compra", "Cantidad", "Precio Und", "Monto"};
             String[][] datos = new String[datosdb.size()][6];
 
@@ -437,9 +440,11 @@ public class JFPrincipal extends javax.swing.JFrame {
                 total = total + datosdb.get(j).getMonto();
             }
 
-            String nombreArchivo = "C:\\Users\\plini\\OneDrive\\Escritorio\\archivoReporte\\tabla.txt";
+            String nombreArchivo = "C:\\Users\\plini\\OneDrive\\Escritorio\\archivoReporte\\Reporte.txt";
 
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo, true))) {
+                writer.write("---------------------------------------------------------------------------------");
+                writer.newLine();
                 writer.write("Cédula : " + cliente.getCedula() + " " + cliente.getNombre());
                 writer.newLine();
                 writer.newLine();
@@ -455,17 +460,19 @@ public class JFPrincipal extends javax.swing.JFrame {
                     }
                     writer.newLine();
                 }
-
                 writer.newLine();
                 writer.write("Total:   " + padRight(String.valueOf(total), 15));
                 writer.newLine();
-
+                writer.write("---------------------------------------------------------------------------------");
+                writer.newLine();
+                
+                
                 System.out.println("Archivo escrito exitosamente: " + nombreArchivo);
             } catch (IOException e) {
                 System.err.println("Error al escribir el archivo: " + e.getMessage());
             }
         }
-
+        JOptionPane.showMessageDialog(null, "Reporte Listo");
     }
 
     public String[] obtenerCedulasUnicas(ArrayList<Cliente> clientes) {
