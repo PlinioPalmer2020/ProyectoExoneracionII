@@ -28,7 +28,7 @@ public class CVendedorRepositorio implements ICRUDDB<Vendedor> {
     @Override
     public int Crear(Vendedor entidad) {
 
-        String Sql = "INSERT INTO [dbo].[Vendedor]([Cedula],[Nombre],[Genero],[Rol],[Pass],[Estado])VALUES(?,?,?,?,?,?)";
+        String Sql = "INSERT INTO [dbo].[Vendedor]([Cedula],[Nombre],[Genero],[Rol],[Pass],[Estado])VALUES(?,?,?,?,?,?,?)";
 
         try {
             CallableStatement cs = _conexion.establecerConexion().prepareCall(Sql);
@@ -39,6 +39,7 @@ public class CVendedorRepositorio implements ICRUDDB<Vendedor> {
             cs.setString(4, entidad.getRol());
             cs.setString(5, entidad.getPass());
             cs.setBoolean(6, entidad.isEstado());
+            cs.setString(7, entidad.getDireccion());
 
             cs.execute();
             
@@ -63,13 +64,15 @@ public class CVendedorRepositorio implements ICRUDDB<Vendedor> {
             ResultSet rs = st.executeQuery(Sql);
 
             while (rs.next()) {
-                //String cedula, String nombre, String genero, boolean estado, String rol
-                vendedor = new Vendedor(rs.getString("Cedula"),
+                //String Rol, String Cedula, String Nombre, String Direccion, String Genero, boolean Estado
+                vendedor = new Vendedor(
+                        rs.getString("Rol"),
+                        rs.getString("Cedula"),
                         rs.getString("Nombre"),
+                        rs.getString("Direccion"),
                         rs.getString("Genero"),
-                        rs.getBoolean("Estado"),
-                        rs.getString("Rol")
-                );
+                        rs.getBoolean("Estado")
+                                );
             }
 
         } catch (Exception e) {
@@ -95,13 +98,14 @@ public class CVendedorRepositorio implements ICRUDDB<Vendedor> {
 
             while (rs.next()) {
                 Vendedor vendedor;
-                //String cedula, String nombre, String genero, boolean estado, String rol
-                vendedor = new Vendedor(rs.getString("Cedula"),
+                vendedor = new Vendedor(
+                        rs.getString("Rol"),
+                        rs.getString("Cedula"),
                         rs.getString("Nombre"),
+                        rs.getString("Direccion"),
                         rs.getString("Genero"),
-                        rs.getBoolean("Estado"),
-                        rs.getString("Rol")
-                );
+                        rs.getBoolean("Estado")
+                                );
                 listVendedor.add(vendedor);
             }
 
@@ -131,18 +135,19 @@ public class CVendedorRepositorio implements ICRUDDB<Vendedor> {
     @Override
     public int Modificar(Vendedor entidad) {
         
-        String Sql = "UPDATE [dbo].[Vendedor] SET [Nombre] = ?, [Genero] = ?, [Rol] = ?, [Pass] = ?, [Estado] = ? WHERE [Cedula] = ?";
+        String Sql = "UPDATE [dbo].[Vendedor] SET [Nombre] = ?, [Genero] = ?, [Rol] = ?, [Pass] = ?, [Direccion] = ?, [Estado] = ? WHERE [Cedula] = ?";
 
         try {
             CallableStatement cs = _conexion.establecerConexion().prepareCall(Sql);
 
-            cs.setString(6, entidad.getCedula());
+            cs.setString(7, entidad.getCedula());
             cs.setString(1, entidad.getNombre());
             cs.setString(2, entidad.getGenero());
             cs.setString(3, entidad.getRol());
             cs.setString(4, entidad.getPass());
             cs.setBoolean(5, entidad.isEstado());
-
+            cs.setString(6, entidad.getDireccion());
+            
             cs.execute();
             
         } catch (Exception e) {

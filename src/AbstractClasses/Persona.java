@@ -12,20 +12,30 @@ package AbstractClasses;
 public class Persona {
     private String  Cedula;
     private String  Nombre;
+    private String  Direccion;
     private String  Genero;
     private boolean Estado;
 
     public Persona() {
     }
-    
-    
-    public Persona(String cedula, String nombre, String genero, boolean estado){
-        this.Genero = genero;
-        this.Cedula = cedula;
-        this.Nombre = nombre;
-        this.Estado = estado;
+
+    public Persona(String Cedula, String Nombre, String Direccion, String Genero, boolean Estado) {
+        this.Cedula = Cedula;
+        this.Nombre = Nombre;
+        this.Direccion = Direccion;
+        this.Genero = Genero;
+        this.Estado = Estado;
     }
 
+    public String getDireccion() {
+        return Direccion;
+    }
+
+    public void setDireccion(String Direccion) {
+        this.Direccion = Direccion;
+    }
+    
+   
     public void setCedula(String Cedula) {
         this.Cedula = Cedula;
     }

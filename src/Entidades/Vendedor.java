@@ -20,21 +20,19 @@ public class Vendedor extends Persona {
 
     }
 
-    public Vendedor(String cedula, String nombre, String genero, boolean estado, String rol, String pass) {
-        super(cedula, nombre, genero, estado);
-        Pass = pass;
-        Rol = rol;
+    public Vendedor(String Rol, String Cedula, String Nombre, String Direccion, String Genero, boolean Estado) {
+        super(Cedula, Nombre, Direccion, Genero, Estado);
+        this.Rol = Rol;
     }
 
-    public Vendedor(String cedula, String nombre, String genero, boolean estado, String rol) {
-        super(cedula, nombre, genero, estado);
-
-        Rol = rol;
+    public Vendedor(String Rol, String Pass, String Cedula, String Nombre, String Direccion, String Genero, boolean Estado) {
+        super(Cedula, Nombre, Direccion, Genero, Estado);
+        this.Rol = Rol;
+        this.Pass = Pass;
     }
 
-    public Vendedor(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
+
 
     public String getRol() {
         return Rol;

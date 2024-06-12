@@ -12,9 +12,13 @@ import AbstractClasses.Persona;
  * @author plini
  */
 public class Cliente extends Persona {
-    
-    public Cliente(String cedula, String nombre, String genero, boolean estado) {
-        super(cedula, nombre, genero, estado);
+
+
+
+    public Cliente(String Cedula, String Nombre, String Direccion, String Genero, boolean Estado) {
+        super(Cedula, Nombre, Direccion, Genero, Estado);
     }
+    
+
     
 }

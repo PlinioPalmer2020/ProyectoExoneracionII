@@ -7,6 +7,7 @@ package proyectoexoneraconii;
 
 import Entidades.TipoCompra;
 import Entidades.Vendedor;
+import InterfaceGrafico.JFClienteCRUD;
 import InterfaceGrafico.JFPrincipal;
 import Repositorios.CVendedorRepositorio;
 import java.util.ArrayList;
@@ -21,8 +22,8 @@ public class ProyectoExoneraconII {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        JFPrincipal principal = new JFPrincipal();
-        
+        //JFPrincipal principal = new JFPrincipal();
+        JFClienteCRUD principal = new JFClienteCRUD();
         principal.setVisible(true);
     }
     

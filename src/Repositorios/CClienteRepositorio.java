@@ -24,15 +24,16 @@ public class CClienteRepositorio implements ICRUDDB<Cliente> {
     @Override
     public int Crear(Cliente entidad) {
 
-        String Sql = "INSERT INTO [dbo].[Cliente]([Cedula],[Nombre],[Genero],[Estado])VALUES(?,?,?,?)";
+        String Sql = "INSERT INTO [dbo].[Cliente]([Cedula],[Nombre],[Direccion],[Genero],[Estado])VALUES(?,?,?,?,?)";
 
         try {
             CallableStatement cs = _conexion.establecerConexion().prepareCall(Sql);
 
             cs.setString(1, entidad.getCedula());
             cs.setString(2, entidad.getNombre());
-            cs.setString(3, entidad.getGenero());
-            cs.setBoolean(4, entidad.isEstado());
+            cs.setString(3, entidad.getDireccion());
+            cs.setString(4, entidad.getGenero());
+            cs.setBoolean(5, entidad.isEstado());
 
             cs.execute();
             
@@ -59,6 +60,7 @@ public class CClienteRepositorio implements ICRUDDB<Cliente> {
 
                 cliente = new Cliente(rs.getString("Cedula"),
                         rs.getString("Nombre"),
+                        rs.getString("Direccion"),
                         rs.getString("Genero"),
                         rs.getBoolean("Estado")
                 );
@@ -90,6 +92,7 @@ public class CClienteRepositorio implements ICRUDDB<Cliente> {
                 //String cedula, String nombre, String genero, boolean estado, String rol
                 cliente = new Cliente(rs.getString("Cedula"),
                         rs.getString("Nombre"),
+                        rs.getString("Direccion"),
                         rs.getString("Genero"),
                         rs.getBoolean("Estado")
                 );
@@ -122,15 +125,16 @@ public class CClienteRepositorio implements ICRUDDB<Cliente> {
     @Override
     public int Modificar(Cliente entidad) {
         
-        String Sql = "UPDATE [dbo].[Cliente] SET [Nombre] = ?, [Genero] = ?, [Estado] = ? WHERE [Cedula] = ?";
+        String Sql = "UPDATE [dbo].[Cliente] SET [Nombre] = ?, [Direccion] = ?, [Genero] = ?, [Estado] = ? WHERE [Cedula] = ?";
 
         try {
             CallableStatement cs = _conexion.establecerConexion().prepareCall(Sql);
 
-            cs.setString(4, entidad.getCedula());
+            cs.setString(5, entidad.getCedula());
             cs.setString(1, entidad.getNombre());
-            cs.setString(2, entidad.getGenero());
-            cs.setBoolean(3, entidad.isEstado());
+            cs.setString(2, entidad.getDireccion());
+            cs.setString(3, entidad.getGenero());
+            cs.setBoolean(4, entidad.isEstado());
 
             cs.execute();
             
