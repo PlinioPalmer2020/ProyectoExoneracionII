@@ -17,6 +17,8 @@ import Repositorios.CVendedorRepositorio;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -417,13 +419,22 @@ public class JFPrincipal extends javax.swing.JFrame {
         ArrayList<Cliente> clientess = _cClienteRepositorio.Get();
         String[] cedulass = obtenerCedulasUnicas(clientess);
 
+        String nombreArchivo = "C:\\Users\\plini\\OneDrive\\Escritorio\\archivoReporte\\Reporte.txt";
+
+        int contador = 0;
+        while (Files.exists(Paths.get(nombreArchivo))) {
+            nombreArchivo += contador;
+            contador++;
+        }
+
         for (String cedu : cedulass) {
             Cliente cliente = _cClienteRepositorio.Get(cedu);
             ArrayList<DatoCompraCliente> datosdb = _cDatoCompraClienteRepositorio.GetAllFiltro(cedu);
-            
-            if(datosdb.isEmpty())
+
+            if (datosdb.isEmpty()) {
                 continue;
-            
+            }
+
             String[] columnas = {"Fecha", "Vendedor", "Tipo Compra", "Cantidad", "Precio Und", "Monto"};
             String[][] datos = new String[datosdb.size()][6];
 
@@ -439,8 +450,6 @@ public class JFPrincipal extends javax.swing.JFrame {
 
                 total = total + datosdb.get(j).getMonto();
             }
-
-            String nombreArchivo = "C:\\Users\\plini\\OneDrive\\Escritorio\\archivoReporte\\Reporte.txt";
 
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo, true))) {
                 writer.write("---------------------------------------------------------------------------------");
@@ -465,8 +474,7 @@ public class JFPrincipal extends javax.swing.JFrame {
                 writer.newLine();
                 writer.write("---------------------------------------------------------------------------------");
                 writer.newLine();
-                
-                
+
                 System.out.println("Archivo escrito exitosamente: " + nombreArchivo);
             } catch (IOException e) {
                 System.err.println("Error al escribir el archivo: " + e.getMessage());
