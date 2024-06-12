@@ -1,4 +1,3 @@
-
 package Repositorios;
 
 import Entidades.Cliente;
@@ -36,9 +35,9 @@ public class CClienteRepositorio implements ICRUDDB<Cliente> {
             cs.setBoolean(5, entidad.isEstado());
 
             cs.execute();
-            
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error a insertar: "+ e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error a insertar: " + e.getMessage());
             return 0;
         }
         return 1;
@@ -107,16 +106,16 @@ public class CClienteRepositorio implements ICRUDDB<Cliente> {
 
     @Override
     public int Eliminar(String x) {
-                String Sql = "UPDATE [dbo].[Cliente] SET  [Estado] = 0 WHERE [Cedula] = ?";
+        String Sql = "UPDATE [dbo].[Cliente] SET  [Estado] = 0 WHERE [Cedula] = ?";
 
         try {
             CallableStatement cs = _conexion.establecerConexion().prepareCall(Sql);
 
             cs.setString(1, x);
             cs.execute();
-            
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al Eliminar: "+ e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al Eliminar: " + e.getMessage());
             return 0;
         }
         return 1;
@@ -124,7 +123,7 @@ public class CClienteRepositorio implements ICRUDDB<Cliente> {
 
     @Override
     public int Modificar(Cliente entidad) {
-        
+
         String Sql = "UPDATE [dbo].[Cliente] SET [Nombre] = ?, [Direccion] = ?, [Genero] = ?, [Estado] = ? WHERE [Cedula] = ?";
 
         try {
@@ -137,9 +136,9 @@ public class CClienteRepositorio implements ICRUDDB<Cliente> {
             cs.setBoolean(4, entidad.isEstado());
 
             cs.execute();
-            
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al Modificar: "+ e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al Modificar: " + e.getMessage());
             return 0;
         }
         return 1;
@@ -174,6 +173,34 @@ public class CClienteRepositorio implements ICRUDDB<Cliente> {
             JOptionPane.showMessageDialog(null, "Error al obtener la lista");
         }
         return listCliente;
+    }
+
+    public Cliente GetAllEstado(String x) {
+
+        Cliente cliente = null;
+        String Sql = "SELECT * FROM Cliente WHERE Cedula = '" + x + "' ";
+        Statement st;
+
+        try {
+            st = _conexion.establecerConexion().createStatement();
+
+            ResultSet rs = st.executeQuery(Sql);
+
+            while (rs.next()) {
+
+                cliente = new Cliente(rs.getString("Cedula"),
+                        rs.getString("Nombre"),
+                        rs.getString("Direccion"),
+                        rs.getString("Genero"),
+                        rs.getBoolean("Estado")
+                );
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener la lista: " + e.getMessage());
+        }
+
+        return cliente;
     }
 
 }
