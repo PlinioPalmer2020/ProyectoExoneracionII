@@ -5,17 +5,14 @@
  */
 package proyectoexoneraconii;
 
-import InterfaceGrafico.JFVendedorCRUD;
+import InterfaceGrafico.JFMenuInicio;
 
 
 public class ProyectoExoneraconII {
 
 
     public static void main(String[] args) {
-        //JFPrincipal principal = new JFPrincipal();
-        //JFClienteCRUD principal = new JFClienteCRUD();
-        //JFMenuInicio principal = new JFMenuInicio();
-        JFVendedorCRUD principal = new JFVendedorCRUD();
+        JFMenuInicio principal = new JFMenuInicio();
         principal.setVisible(true);
     }
     

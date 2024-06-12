@@ -54,6 +54,7 @@ public class JFClienteCRUD extends javax.swing.JFrame {
         btnIrComprar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnValidarCliente = new javax.swing.JButton();
+        btnIrMenu = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tCliente = new javax.swing.JTable();
 
@@ -138,6 +139,13 @@ public class JFClienteCRUD extends javax.swing.JFrame {
             }
         });
 
+        btnIrMenu.setText("Ir al Menu");
+        btnIrMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIrMenuActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -147,7 +155,7 @@ public class JFClienteCRUD extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtCedula, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE))
+                        .addComponent(txtCedula))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
@@ -171,7 +179,10 @@ public class JFClienteCRUD extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnLimpiar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnEliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnIrMenu)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnValidarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -209,7 +220,8 @@ public class JFClienteCRUD extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnIrComprar)
-                    .addComponent(btnEliminar)))
+                    .addComponent(btnEliminar)
+                    .addComponent(btnIrMenu)))
         );
 
         tCliente.setModel(new javax.swing.table.DefaultTableModel(
@@ -238,7 +250,7 @@ public class JFClienteCRUD extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -465,6 +477,12 @@ public class JFClienteCRUD extends javax.swing.JFrame {
         ActivarRegistro();
     }//GEN-LAST:event_btnValidarClienteActionPerformed
 
+    private void btnIrMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIrMenuActionPerformed
+        JFMenuInicio principal = new JFMenuInicio();
+        principal.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnIrMenuActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -504,6 +522,7 @@ public class JFClienteCRUD extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnIrComprar;
+    private javax.swing.JButton btnIrMenu;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnValidarCliente;
     private javax.swing.JComboBox<String> cbEstado;

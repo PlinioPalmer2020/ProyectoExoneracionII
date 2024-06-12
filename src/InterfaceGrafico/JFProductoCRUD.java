@@ -5,8 +5,8 @@
  */
 package InterfaceGrafico;
 
-import Entidades.Cliente;
-import Repositorios.CClienteRepositorio;
+import Entidades.Producto;
+import Repositorios.CProductoRepositorio;
 import java.awt.HeadlessException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -18,13 +18,15 @@ import javax.swing.table.DefaultTableModel;
  */
 public class JFProductoCRUD extends javax.swing.JFrame {
 
-    private CClienteRepositorio _cClienteRepositorio;
+    private CProductoRepositorio _cProductoRepositorio;
     private String estadoSistema = "guardar";
+
+    private String _nombreAux;
 
     public JFProductoCRUD() {
         initComponents();
         this.setLocationRelativeTo(null);
-        _cClienteRepositorio = new CClienteRepositorio();
+        _cProductoRepositorio = new CProductoRepositorio();
 
         CargarCliente();
     }
@@ -39,71 +41,41 @@ public class JFProductoCRUD extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        txtCedula = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtDireccion = new javax.swing.JTextField();
+        txtPrecio = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         btnGuardar = new javax.swing.JButton();
-        cbGenero = new javax.swing.JComboBox<>();
         cbEstado = new javax.swing.JComboBox<>();
         btnLimpiar = new javax.swing.JButton();
         btnIrComprar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnValidarCliente = new javax.swing.JButton();
+        btnIrMenu = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tCliente = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos Clientes"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos Productos"));
         jPanel1.setAutoscrolls(true);
-
-        jLabel1.setText("Cedula: ");
-
-        txtCedula.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                txtCedulaInputMethodTextChanged(evt);
-            }
-        });
-        txtCedula.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCedulaActionPerformed(evt);
-            }
-        });
-        txtCedula.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                txtCedulaPropertyChange(evt);
-            }
-        });
 
         jLabel2.setText("Nombre: ");
 
-        txtNombre.setEnabled(false);
+        jLabel4.setText("Precio: ");
 
-        jLabel3.setText("Genero: ");
-
-        jLabel4.setText("Direccion: ");
-
-        txtDireccion.setEnabled(false);
+        txtPrecio.setEnabled(false);
 
         jLabel5.setText("Estado: ");
 
-        btnGuardar.setText("Crear Cliente");
+        btnGuardar.setText("Crear Producto");
         btnGuardar.setEnabled(false);
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
             }
         });
-
-        cbGenero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Femenino" }));
-        cbGenero.setEnabled(false);
 
         cbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo" }));
         cbEstado.setEnabled(false);
@@ -131,10 +103,17 @@ public class JFProductoCRUD extends javax.swing.JFrame {
             }
         });
 
-        btnValidarCliente.setText("Validar Cliente");
+        btnValidarCliente.setText("Validar Producto");
         btnValidarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnValidarClienteActionPerformed(evt);
+            }
+        });
+
+        btnIrMenu.setText("Ir al Menu");
+        btnIrMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIrMenuActionPerformed(evt);
             }
         });
 
@@ -145,30 +124,23 @@ public class JFProductoCRUD extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtCedula, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNombre)
-                            .addComponent(txtDireccion)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cbGenero, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(txtPrecio)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cbEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnIrComprar))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnIrComprar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnIrMenu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnLimpiar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnEliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -180,36 +152,31 @@ public class JFProductoCRUD extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnValidarCliente)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addContainerGap(23, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnValidarCliente)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(cbGenero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnLimpiar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnIrComprar)
-                    .addComponent(btnEliminar)))
+                    .addComponent(btnEliminar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnIrMenu)
+                .addGap(23, 23, 23))
         );
 
         tCliente.setModel(new javax.swing.table.DefaultTableModel(
@@ -238,7 +205,7 @@ public class JFProductoCRUD extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -258,42 +225,38 @@ public class JFProductoCRUD extends javax.swing.JFrame {
                 return false;
             }
         };
-        ArrayList<Cliente> listClientes = _cClienteRepositorio.GetAll();
-        String[] clienteString = new String[5];
+        ArrayList<Producto> listProductos = _cProductoRepositorio.GetAll();
+        String[] clienteString = new String[3];
 
-        modelCliente.addColumn("Cedula");
         modelCliente.addColumn("Nombre");
-        modelCliente.addColumn("Direccion");
-        modelCliente.addColumn("Genero");
+        modelCliente.addColumn("PrecioUnitario");
         modelCliente.addColumn("Estado");
 
-        if (listClientes.size() == 0) {
+        if (listProductos.size() == 0) {
             tCliente.setModel(modelCliente);
             return;
         }
 
-        listClientes.forEach((cliente) -> {
-            clienteString[0] = cliente.getCedula();
-            clienteString[1] = cliente.getNombre();
-            clienteString[2] = cliente.getDireccion();
-            clienteString[3] = cliente.getGenero();
+        listProductos.forEach((producto) -> {
+            clienteString[0] = producto.getNombre();
+            clienteString[1] = String.valueOf(producto.getPrecioUnitario());
 
-            if (cliente.isEstado()) {
-                clienteString[4] = "Activo";
+            if (producto.isEstado()) {
+                clienteString[2] = "Activo";
             } else {
-                clienteString[4] = "Inactivo";
+                clienteString[2] = "Inactivo";
             }
             modelCliente.addRow(clienteString);
         });
         tCliente.setModel(modelCliente);
     }
 
-    private void CrearCliente(Cliente entidad) {
+    private void CrearCliente(Producto entidad) {
 
         try {
 
-            if (_cClienteRepositorio.Crear(entidad) == 1) {
-                JOptionPane.showMessageDialog(null, "Cliente Creado");
+            if (_cProductoRepositorio.Crear(entidad) == 1) {
+                JOptionPane.showMessageDialog(null, "Producto Creado");
                 CargarCliente();
                 Limpiar();
             }
@@ -304,10 +267,10 @@ public class JFProductoCRUD extends javax.swing.JFrame {
 
     }
 
-    private void ModificarCliente(Cliente entidad) {
+    private void ModificarCliente(Producto entidad) {
         try {
 
-            if (_cClienteRepositorio.Modificar(entidad) == 1) {
+            if (_cProductoRepositorio.Modificar(entidad) == 1) {
                 JOptionPane.showMessageDialog(null, "Cambios realizados");
                 CargarCliente();
                 Limpiar();
@@ -321,8 +284,8 @@ public class JFProductoCRUD extends javax.swing.JFrame {
     private void DesactivarCliente(String cedula) {
         try {
 
-            if (_cClienteRepositorio.Eliminar(cedula) == 1) {
-                JOptionPane.showMessageDialog(null, "Cliente desactivado");
+            if (_cProductoRepositorio.Eliminar(cedula) == 1) {
+                JOptionPane.showMessageDialog(null, "Producto desactivado");
                 CargarCliente();
                 Limpiar();
             }
@@ -334,16 +297,15 @@ public class JFProductoCRUD extends javax.swing.JFrame {
 
     private void Limpiar() {
         txtNombre.setText("");
-        txtDireccion.setText("");
-        txtCedula.setText("");
-        txtCedula.setEnabled(true);
+        txtPrecio.setText("");
+        txtNombre.setEnabled(true);
         cbEstado.setSelectedIndex(0);
-        cbGenero.setSelectedIndex(0);
         estadoSistema = "guardar";
         btnGuardar.setText("Crear Cliente");
         btnLimpiar.setText("Limpiar");
         btnEliminar.setEnabled(false);
         DesactivarRegistro();
+        _nombreAux = "";
     }
 
     private String QuitarGuion(String valor) {
@@ -361,9 +323,7 @@ public class JFProductoCRUD extends javax.swing.JFrame {
     }
 
     private void ActivarRegistro() {
-        txtNombre.setEnabled(true);
-        txtDireccion.setEnabled(true);
-        cbGenero.setEnabled(true);
+        txtPrecio.setEnabled(true);
         cbEstado.setEnabled(true);
         btnGuardar.setEnabled(true);
         btnLimpiar.setEnabled(true);
@@ -371,36 +331,30 @@ public class JFProductoCRUD extends javax.swing.JFrame {
     }
 
     private void DesactivarRegistro() {
-        txtNombre.setEnabled(false);
-        txtDireccion.setEnabled(false);
-        cbGenero.setEnabled(false);
+        txtPrecio.setEnabled(false);
         cbEstado.setEnabled(false);
         btnGuardar.setEnabled(false);
         btnLimpiar.setEnabled(false);
         btnValidarCliente.setEnabled(true);
     }
 
-    private void txtCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCedulaActionPerformed
-
-    }//GEN-LAST:event_txtCedulaActionPerformed
-
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        String Cedula = txtCedula.getText();
+
         String Nombre = txtNombre.getText();
-        String Direccion = txtDireccion.getText();
-        String Genero = cbGenero.getSelectedItem().toString();
+        Double Precio = Double.parseDouble(txtPrecio.getText());
         String auxEstado = cbEstado.getSelectedItem().toString();
         boolean Estado = false;
         if ("Activo".equals(auxEstado)) {
             Estado = true;
         }
 
-        Cliente entidad = new Cliente(Cedula, Nombre, Direccion, Genero, Estado);
+        Producto entidad = new Producto(Nombre, Precio, Estado);
         switch (estadoSistema) {
             case "guardar":
                 CrearCliente(entidad);
                 break;
             case "modificar":
+                entidad.setNombre(_nombreAux + "-" + entidad.getNombre());
                 ModificarCliente(entidad);
                 break;
         }
@@ -418,17 +372,16 @@ public class JFProductoCRUD extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIrComprarActionPerformed
 
     private void tClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tClienteMouseClicked
-        txtCedula.setEnabled(false);
+        //txtNombre.setEnabled(false);
 
         int fila = tCliente.getSelectedRow();
 
-        txtCedula.setText(tCliente.getValueAt(fila, 0).toString());
-        txtNombre.setText(tCliente.getValueAt(fila, 1).toString());
-        txtDireccion.setText(tCliente.getValueAt(fila, 2).toString());
-        cbGenero.setSelectedItem(tCliente.getValueAt(fila, 3));
-        cbEstado.setSelectedItem(tCliente.getValueAt(fila, 4));
+        _nombreAux = tCliente.getValueAt(fila, 0).toString();
+        txtNombre.setText(tCliente.getValueAt(fila, 0).toString());
+        txtPrecio.setText(tCliente.getValueAt(fila, 1).toString());
+        cbEstado.setSelectedItem(tCliente.getValueAt(fila, 2));
 
-        if ("Activo".equals(tCliente.getValueAt(fila, 4).toString())) {
+        if ("Activo".equals(tCliente.getValueAt(fila, 2).toString())) {
             btnEliminar.setEnabled(true);
         } else {
             btnEliminar.setEnabled(false);
@@ -442,28 +395,26 @@ public class JFProductoCRUD extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         estadoSistema = "eliminar";
-        DesactivarCliente(txtCedula.getText());
+        DesactivarCliente(txtNombre.getText());
 
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void txtCedulaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtCedulaPropertyChange
-
-    }//GEN-LAST:event_txtCedulaPropertyChange
-
-    private void txtCedulaInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtCedulaInputMethodTextChanged
-        JOptionPane.showMessageDialog(null, "Error al crear: ");
-    }//GEN-LAST:event_txtCedulaInputMethodTextChanged
-
     private void btnValidarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValidarClienteActionPerformed
 
-        Cliente cliente = _cClienteRepositorio.GetAllEstado(txtCedula.getText());
+        Producto cliente = _cProductoRepositorio.GetAllEstado(txtNombre.getText());
         if (cliente != null) {
-            JOptionPane.showMessageDialog(null, "El Cliente existe");
+            JOptionPane.showMessageDialog(null, "El Producto existe");
             DesactivarRegistro();
             return;
         }
         ActivarRegistro();
     }//GEN-LAST:event_btnValidarClienteActionPerformed
+
+    private void btnIrMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIrMenuActionPerformed
+        JFMenuInicio principal = new JFMenuInicio();
+        principal.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnIrMenuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -505,20 +456,17 @@ public class JFProductoCRUD extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnIrComprar;
+    private javax.swing.JButton btnIrMenu;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnValidarCliente;
     private javax.swing.JComboBox<String> cbEstado;
-    private javax.swing.JComboBox<String> cbGenero;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tCliente;
-    private javax.swing.JTextField txtCedula;
-    private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables
 }
