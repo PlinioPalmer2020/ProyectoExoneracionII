@@ -7,6 +7,7 @@ package InterfaceGrafico;
 
 import Entidades.Cliente;
 import Repositorios.CClienteRepositorio;
+import java.awt.HeadlessException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -61,9 +62,21 @@ public class JFClienteCRUD extends javax.swing.JFrame {
 
         jLabel1.setText("Cedula: ");
 
+        txtCedula.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                txtCedulaInputMethodTextChanged(evt);
+            }
+        });
         txtCedula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCedulaActionPerformed(evt);
+            }
+        });
+        txtCedula.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                txtCedulaPropertyChange(evt);
             }
         });
 
@@ -224,7 +237,7 @@ public class JFClienteCRUD extends javax.swing.JFrame {
                 return false;
             }
         };
-        ArrayList<Cliente> listClientes = _cClienteRepositorio.Get();
+        ArrayList<Cliente> listClientes = _cClienteRepositorio.GetAll();
         String[] clienteString = new String[5];
 
         modelCliente.addColumn("Cedula");
@@ -263,8 +276,9 @@ public class JFClienteCRUD extends javax.swing.JFrame {
                 CargarCliente();
                 Limpiar();
             }
-        } catch (Exception e) {
+        } catch (HeadlessException e) {
             JOptionPane.showMessageDialog(null, "Error al crear: " + e.getMessage());
+            Limpiar();
         }
 
     }
@@ -279,6 +293,7 @@ public class JFClienteCRUD extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al crear: " + e.getMessage());
+            Limpiar();
         }
     }
 
@@ -292,6 +307,7 @@ public class JFClienteCRUD extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al crear: " + e.getMessage());
+            Limpiar();
         }
     }
 
@@ -308,7 +324,7 @@ public class JFClienteCRUD extends javax.swing.JFrame {
         btnEliminar.setEnabled(false);
     }
     private void txtCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCedulaActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_txtCedulaActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -346,7 +362,7 @@ public class JFClienteCRUD extends javax.swing.JFrame {
 
     private void tClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tClienteMouseClicked
         txtCedula.setEnabled(false);
-        btnEliminar.setEnabled(true);
+
         int fila = tCliente.getSelectedRow();
 
         txtCedula.setText(tCliente.getValueAt(fila, 0).toString());
@@ -354,6 +370,12 @@ public class JFClienteCRUD extends javax.swing.JFrame {
         txtDireccion.setText(tCliente.getValueAt(fila, 2).toString());
         cbGenero.setSelectedItem(tCliente.getValueAt(fila, 3));
         cbEstado.setSelectedItem(tCliente.getValueAt(fila, 4));
+
+        if ("Activo".equals(tCliente.getValueAt(fila, 4).toString())) {
+            btnEliminar.setEnabled(true);
+        } else {
+            btnEliminar.setEnabled(false);
+        }
 
         btnGuardar.setText("Guardar Cambios");
         estadoSistema = "modificar";
@@ -365,6 +387,14 @@ public class JFClienteCRUD extends javax.swing.JFrame {
         DesactivarCliente(txtCedula.getText());
 
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void txtCedulaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtCedulaPropertyChange
+
+    }//GEN-LAST:event_txtCedulaPropertyChange
+
+    private void txtCedulaInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtCedulaInputMethodTextChanged
+        JOptionPane.showMessageDialog(null, "Error al crear: ");
+    }//GEN-LAST:event_txtCedulaInputMethodTextChanged
 
     /**
      * @param args the command line arguments

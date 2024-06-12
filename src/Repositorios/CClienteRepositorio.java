@@ -48,7 +48,7 @@ public class CClienteRepositorio implements ICRUDDB<Cliente> {
     public Cliente Get(String x) {
 
         Cliente cliente = null;
-        String Sql = "SELECT * FROM Cliente WHERE Cedula = '" + x + "'";
+        String Sql = "SELECT * FROM Cliente WHERE Cedula = '" + x + "' and Estado = 'true'";
         Statement st;
 
         try {
@@ -143,6 +143,37 @@ public class CClienteRepositorio implements ICRUDDB<Cliente> {
             return 0;
         }
         return 1;
+    }
+
+    @Override
+    public ArrayList<Cliente> GetAll() {
+        ArrayList<Cliente> listCliente = new ArrayList<>();
+
+        String Sql = "SELECT * FROM Cliente ";
+
+        Statement st;
+
+        try {
+            st = _conexion.establecerConexion().createStatement();
+
+            ResultSet rs = st.executeQuery(Sql);
+
+            while (rs.next()) {
+                Cliente cliente;
+                //String cedula, String nombre, String genero, boolean estado, String rol
+                cliente = new Cliente(rs.getString("Cedula"),
+                        rs.getString("Nombre"),
+                        rs.getString("Direccion"),
+                        rs.getString("Genero"),
+                        rs.getBoolean("Estado")
+                );
+                listCliente.add(cliente);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener la lista");
+        }
+        return listCliente;
     }
 
 }
