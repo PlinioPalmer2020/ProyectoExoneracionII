@@ -12,6 +12,7 @@ public class ProyectoExoneraconII {
 
 
     public static void main(String[] args) {
+        
         JFMenuInicio principal = new JFMenuInicio();
         principal.setVisible(true);
     }

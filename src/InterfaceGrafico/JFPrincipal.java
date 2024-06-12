@@ -19,6 +19,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -406,57 +408,74 @@ public class JFPrincipal extends javax.swing.JFrame {
     }
 
     private void Imprimir() {
-        if ("".equals(txtBuscarCliente.getText())) {
-            JOptionPane.showMessageDialog(null, "Debe buscar un Cliente para Imprimir su factura");
-            return;
-        }
-        Cliente cliente = _cClienteRepositorio.Get(txtBuscarCliente.getText());
-        ArrayList<DatoCompraCliente> datosdb = _cDatoCompraClienteRepositorio.Get();
 
-        String[] columnas = {"Fecha", "Vendedor", "Tipo Compra", "Cantidad", "Precio Und", "Monto"};
-        String[][] datos = new String[datosdb.size()][6];
+        //String cedula = JOptionPane.showInputDialog(null, "Introduzca la cedula:", "Imprimir", JOptionPane.QUESTION_MESSAGE);
+        //if (cedula == null || cedula.isEmpty()) {
+        //JOptionPane.showMessageDialog(null, "Introduzca la cedula del cliente");
+        //  return;
+        //}
+        ArrayList<Cliente> clientess = _cClienteRepositorio.Get();
+        String[] cedulass = obtenerCedulasUnicas(clientess);
 
-        double total = 0;
+        for (String cedu : cedulass) {
+            Cliente cliente = _cClienteRepositorio.Get(cedu);
+            ArrayList<DatoCompraCliente> datosdb = _cDatoCompraClienteRepositorio.GetAllFiltro(cedu);
 
-        for (int j = 0; j < datosdb.size(); j++) {
-            datos[j][0] = datosdb.get(j).getFecha();
-            datos[j][1] = datosdb.get(j).getVendedor();
-            datos[j][2] = datosdb.get(j).getTipoCompra();
-            datos[j][3] = String.valueOf(datosdb.get(j).getCantidad());
-            datos[j][4] = String.valueOf(datosdb.get(j).getPrecioUnitario());
-            datos[j][5] = String.valueOf(datosdb.get(j).getMonto());
+            String[] columnas = {"Fecha", "Vendedor", "Tipo Compra", "Cantidad", "Precio Und", "Monto"};
+            String[][] datos = new String[datosdb.size()][6];
 
-            total = total + datosdb.get(j).getMonto();
-        }
+            double total = 0;
 
-        String nombreArchivo = "C:\\Users\\plini\\OneDrive\\Escritorio\\archivoReporte\\tabla.txt";
+            for (int j = 0; j < datosdb.size(); j++) {
+                datos[j][0] = datosdb.get(j).getFecha();
+                datos[j][1] = datosdb.get(j).getVendedor();
+                datos[j][2] = datosdb.get(j).getTipoCompra();
+                datos[j][3] = String.valueOf(datosdb.get(j).getCantidad());
+                datos[j][4] = String.valueOf(datosdb.get(j).getPrecioUnitario());
+                datos[j][5] = String.valueOf(datosdb.get(j).getMonto());
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo))) {
-            writer.write("Cédula : " + cliente.getCedula() + " " + cliente.getNombre());
-            writer.newLine();
-            writer.newLine();
-
-            for (String columna : columnas) {
-                writer.write(padRight(columna, 15));
+                total = total + datosdb.get(j).getMonto();
             }
-            writer.newLine();
 
-            for (String[] fila : datos) {
-                for (String celda : fila) {
-                    writer.write(padRight(celda, 15));
+            String nombreArchivo = "C:\\Users\\plini\\OneDrive\\Escritorio\\archivoReporte\\tabla.txt";
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo, true))) {
+                writer.write("Cédula : " + cliente.getCedula() + " " + cliente.getNombre());
+                writer.newLine();
+                writer.newLine();
+
+                for (String columna : columnas) {
+                    writer.write(padRight(columna, 15));
                 }
                 writer.newLine();
+
+                for (String[] fila : datos) {
+                    for (String celda : fila) {
+                        writer.write(padRight(celda, 15));
+                    }
+                    writer.newLine();
+                }
+
+                writer.newLine();
+                writer.write("Total:   " + padRight(String.valueOf(total), 15));
+                writer.newLine();
+
+                System.out.println("Archivo escrito exitosamente: " + nombreArchivo);
+            } catch (IOException e) {
+                System.err.println("Error al escribir el archivo: " + e.getMessage());
             }
-
-            writer.newLine();
-            writer.write("Total:   " + padRight(String.valueOf(total), 15));
-            writer.newLine();
-
-            System.out.println("Archivo escrito exitosamente: " + nombreArchivo);
-        } catch (IOException e) {
-            System.err.println("Error al escribir el archivo: " + e.getMessage());
         }
 
+    }
+
+    public String[] obtenerCedulasUnicas(ArrayList<Cliente> clientes) {
+        Set<String> cedulasVistas = new HashSet<>();
+
+        clientes.forEach((cliente) -> {
+            cedulasVistas.add(cliente.getCedula());
+        });
+
+        return cedulasVistas.toArray(new String[0]);
     }
 
     private static String padRight(String texto, int n) {
